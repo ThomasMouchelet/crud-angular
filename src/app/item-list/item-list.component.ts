@@ -9,11 +9,13 @@ import 'rxjs/Add/operator/map';
 })
 export class ItemListComponent implements OnInit {
 
+  items = [];
+
   constructor(private http:Http) { }
 
   ngOnInit() {
     this.http.get('data/items.json')
-              .map(res => console.log(res))
+              .map(res => this.items = res.json())
               .subscribe();
   }
 

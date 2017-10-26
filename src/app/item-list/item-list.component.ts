@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
-import 'rxjs/Add/operator/map';
+
+import { ItemService } from '../services/item.service';
 
 @Component({
   selector: 'app-item-list',
@@ -11,12 +12,13 @@ export class ItemListComponent implements OnInit {
 
   items = [];
 
-  constructor(private http:Http) { }
+  constructor(private http:Http, private itemService: ItemService) { }
 
   ngOnInit() {
-    this.http.get('data/items.json')
-              .map(res => this.items = res.json())
-              .subscribe();
+    this.itemService.getItems().subscribe(
+      data => this.items = data,
+      error => console.error(error)
+    )
   }
 
 }

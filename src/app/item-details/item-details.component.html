@@ -1,3 +1,10 @@
-<p>
-  item-details works!
-</p>
+
+<!-- <pre>
+  {{ item | json}}
+</pre> -->
+
+<div *ngIf="item">
+    <h2>{{ item.title }}</h2>
+    
+    <p>{{ item.description }}</p>
+</div>

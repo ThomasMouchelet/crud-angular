@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+
+import { ItemService } from '../services/item.service';
 
 @Component({
   selector: 'app-item-details',
@@ -8,11 +11,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ItemDetailsComponent implements OnInit {
 
-  constructor(private activatedRoute:ActivatedRoute) { }
+  item = null;
+
+  constructor(private activatedRoute:ActivatedRoute, private itemService:ItemService) { }
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.params.id;
-    console.log(id);
+    this.itemService.getItem(id).subscribe(
+      res => this.item = res
+    );
   }
 
 }

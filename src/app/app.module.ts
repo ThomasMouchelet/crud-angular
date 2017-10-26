@@ -6,16 +6,19 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ItemListComponent } from './item-list/item-list.component';
+import { ItemDetailsComponent } from './item-details/item-details.component';
 
 const routes = [
-  { path: '', component: HomeComponent}
+  { path: '', component: HomeComponent},
+  { path: 'items/:id', component: ItemDetailsComponent}
 ]
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ItemListComponent
+    ItemListComponent,
+    ItemDetailsComponent
   ],
   imports: [
     BrowserModule,

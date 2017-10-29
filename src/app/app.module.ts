@@ -2,16 +2,22 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ItemListComponent } from './item-list/item-list.component';
 import { ItemDetailsComponent } from './item-details/item-details.component';
 import { ItemService } from './services/item.service';
+import { AuthentificationComponent } from './authentification/authentification.component';
+import { AuthService } from './services/auth.service';
+import { ProfilComponent } from './profil/profil.component';
 
 const routes = [
   { path: '', component: HomeComponent},
-  { path: 'items/:id', component: ItemDetailsComponent}
+  { path: 'items/:id', component: ItemDetailsComponent},
+  { path: 'login', component: AuthentificationComponent},
+  { path: 'profil', component: ProfilComponent},
 ]
 
 @NgModule({
@@ -19,15 +25,20 @@ const routes = [
     AppComponent,
     HomeComponent,
     ItemListComponent,
-    ItemDetailsComponent
+    ItemDetailsComponent,
+    AuthentificationComponent,
+    ProfilComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(routes)
   ],
   providers: [
-    ItemService
+    ItemService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

@@ -17,9 +17,12 @@ export class ItemDetailsComponent implements OnInit {
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.params.id;
+
     this.itemService.getItem(id).subscribe(
-      res => this.item = res
-    );
+      data => this.item = data,
+      error => console.error(error)
+    )
+
   }
 
 }

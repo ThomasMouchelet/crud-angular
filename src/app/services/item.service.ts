@@ -7,14 +7,16 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class ItemService {
 
+  BASE_URL = 'http://localhost:4201';
+
   constructor(private http:Http) { }
 
   getItems(){
-    return this.http.get('data/items.json')
+    return this.http.get(this.BASE_URL + '/api/items')
                     .map(res => res.json());
   }
   getItem(id){
-     return this.http.get('data/items.json')
-                      .map(res => res.json().filter(i => i._id == id)[0]);
+    return this.http.get(this.BASE_URL + `/api/items/${id}`)
+                      .map(res => res.json());
   }
 }

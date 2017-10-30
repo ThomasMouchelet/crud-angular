@@ -29,15 +29,6 @@ app.use((req, res, next) => {
 
 const auth = express.Router();
 
-let usersSql = () => {
-  id = 1;
-  let sql = 'SELECT * FROM users WHERE id = ' + con.escape(id);    
-  con.query(sql, function (err, result, fields) {
-      if (err) throw err;
-      return result[0];
-  });
-};
-
 auth.post('/login', (req, res) => { 
   if(req.body){
     const email = req.body.email.toLocaleLowerCase();
@@ -53,45 +44,34 @@ auth.post('/login', (req, res) => {
         let user = result[0];
         if(user && (user.password == password)) {
           if(user.role == 'admin'){
-            token = jwt.sign({ iss: 'http://localhost:4201', role: 'admin', email: req.body.email, nickname: user.nickname}, secret);
+            token = jwt.sign({ id: user.id, role: 'admin', email: req.body.email}, secret);
           }else{
-            token = jwt.sign({ iss: 'http://localhost:4201', role: 'user', email: req.body.email, nickname: user.nickname}, secret);
+            token = jwt.sign({ 
+              id: user.id, 
+              role: 'user', 
+              email: req.body.email,
+              firstName: user.firstName,
+              lastName: user.lastName
+            }, secret);
           }
           res.json({ success: true, token: token});
         }else {
           res.status(401).json({ success: false, message : 'identifiants incorrects' });
         }
-        
     });
   }else{
     res.status(500).json({ success: false, message: 'données manquantes'});
   }
 });
 
-
-// auth.post('/login', (req, res) => {
-//     if(req.body) {
-//       const email = req.body.email.toLocaleLowerCase();
-//       const password = req.body.password.toLocaleLowerCase();
-//       const index = users.findIndex(user => user.email === email);
-//       console.log('index ', index);
-//       console.log('user ', users[index]);
-//       if(index > -1 && users[index].password === password) {
-//         let user = users[index]; 
-//         let token = '';
-//         if(user.email === 'tu@test.fr') {
-//           token = jwt.sign({ iss: 'http://localhost:4201', role: 'admin', email: req.body.email, nickname: user.nickname}, secret);
-//         } else {
-//           token = jwt.sign({ iss: 'http://localhost:4201', role: 'user', email: req.body.email, nickname: user.nickname}, secret);
-//         }
-//         res.json({ success: true, token: token});
-//       } else {
-//         res.status(401).json({ success: false, message : 'identifiants incorrects' });
-//       }
-//     } else {
-//       res.status(500).json({ success: false, message: 'données manquantes'});
-//     }
-//   });
+auth.post('/update-profil', (req, res) => { 
+  const user = req.body;
+  var sql = "UPDATE users SET firstName = ?, lastName = ? WHERE id =" + user.id;
+  con.query(sql, [user.firstName,user.lastName],function (err, result) {
+    if (err) throw err;
+    res.json({ success: true, message: 'Profil modifié'});
+  });
+})
 
 // API
 const api = express.Router();

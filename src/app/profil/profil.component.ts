@@ -21,15 +21,19 @@ export class ProfilComponent implements OnInit {
 
   ngOnInit() {
     if(this.authService.userIsLoggedIn()) {
-      const jbbToken = JSON.parse(localStorage.getItem('jbb-token'));
-      this.decodedToken = this.authService.decodeToken(jbbToken.token);
-      console.log(this.decodedToken);
+      this.decodeToken();
+      //console.log(this.decodedToken);
       if(this.decodedToken && this.decodedToken.role === 'admin') {
         this.isAdmin = true;
       }else{
         this.initForm();
       }
     }
+  }
+
+  decodeToken(){
+    const jbbToken = JSON.parse(localStorage.getItem('jbb-token'));
+    this.decodedToken = this.authService.decodeToken(jbbToken.token);
   }
 
   initForm(){
@@ -54,7 +58,11 @@ export class ProfilComponent implements OnInit {
     let id = this.decodedToken.id;
     console.log(formData);
     let data = {id,...formData}
-    this.authService.updateProfil(data).subscribe();
+    this.authService.updateProfil(data).subscribe(res => {
+      this.authService.updateToken(res);
+      this.decodeToken();
+    });
+    
   }
 
 }

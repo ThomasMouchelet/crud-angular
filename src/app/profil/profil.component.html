@@ -2,12 +2,14 @@
   admin
 </div>
 
-<pre>
+<!-- <pre>
   {{ decodedToken | json }}
-</pre>
+</pre> -->
+
+<h2>Complétez votre profil</h2>
 
 <div *ngIf="!isAdmin">
-    <form [formGroup]="form" (ngSubmit)="updateProfil(form.value)">
+    <form #loginForm="ngForm" [formGroup]="form" (ngSubmit)="updateProfil(form.value)">
         <div class="form-group">
           <label for="exampleInputEmail1">Votre email</label>
           <input type="email" 
@@ -18,6 +20,7 @@
                 placeholder="email"
                 formControlName="email"
                 value="{{decodedToken.email}}"
+                required
                 >
         </div>
         <div class="form-group">
@@ -29,6 +32,7 @@
                   formControlName="firstName"
                   placeholder="{{decodedToken.firstName == '' ? 'Entrez votre prénom' : ''}}"
                   value="{{decodedToken.firstName == '' ? '' : decodedToken.firstName}}"
+                  required
                   >
         </div>
         <div class="form-group">
@@ -40,9 +44,10 @@
                   formControlName="lastName"
                   placeholder="{{decodedToken.lastName == '' ? 'Entrez votre nom' : ''}}"
                   value="{{decodedToken.lastName == '' ? '' : decodedToken.lastName}}"
+                  required
                   >
         </div>
         
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Submit</button>
       </form>
 </div>

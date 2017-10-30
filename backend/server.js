@@ -69,7 +69,15 @@ auth.post('/update-profil', (req, res) => {
   var sql = "UPDATE users SET firstName = ?, lastName = ? WHERE id =" + user.id;
   con.query(sql, [user.firstName,user.lastName],function (err, result) {
     if (err) throw err;
-    res.json({ success: true, message: 'Profil modifié'});
+    token = jwt.sign({ 
+      id: user.id, 
+      role: 'user', 
+      email: req.body.email,
+      firstName: user.firstName,
+      lastName: user.lastName
+    }, secret);
+    res.json({ success: true, token: token});
+
   });
 })
 

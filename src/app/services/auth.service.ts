@@ -25,6 +25,11 @@ export class AuthService {
     localStorage.removeItem('token');
   }
 
+  updateToken(newToken){
+    let oldToken = localStorage.getItem(this.TOKEN_NAME);
+    localStorage.setItem(this.TOKEN_NAME, JSON.stringify(newToken));
+  }
+
   register(credentials) {
     // console.log('register credentials: ', credentials);
     return this.http.post(this.BASE_URL + 'register', credentials)

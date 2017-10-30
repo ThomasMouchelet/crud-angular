@@ -6,9 +6,9 @@
   {{ decodedToken | json }}
 </pre> -->
 
-<h2>Complétez votre profil</h2>
-
 <div *ngIf="!isAdmin">
+    <h2>Complétez votre profil</h2>
+
     <form #loginForm="ngForm" [formGroup]="form" (ngSubmit)="updateProfil(form.value)">
         <div class="form-group">
           <label for="exampleInputEmail1">Votre email</label>

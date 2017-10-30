@@ -47,9 +47,4 @@ export class AuthService {
     return new RequestOptions({ headers: authorizationHeader });
   }
 
-  updateProfil(userData){
-    return this.http.post(this.BASE_URL + '/update-profil', userData)
-                .map(res => res.json() );
-  }
-
 }

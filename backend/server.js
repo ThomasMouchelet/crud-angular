@@ -64,7 +64,9 @@ auth.post('/login', (req, res) => {
   }
 });
 
-auth.post('/update-profil', (req, res) => { 
+const profil = express.Router();
+
+profil.post('/update-profil', (req, res) => { 
   const user = req.body;
   var sql = "UPDATE users SET firstName = ?, lastName = ? WHERE id =" + user.id;
   con.query(sql, [user.firstName,user.lastName],function (err, result) {
@@ -103,6 +105,7 @@ api.get('/items/:id', (req, res) => {
 
 app.use('/api', api);
 app.use('/auth', auth);
+app.use('/profil', profil);
 
 const port = 4201;
 app.listen(port, () => {

@@ -4,6 +4,7 @@ import { Http, Headers, Request } from '@angular/http';
 
 import { AuthService } from '../services/auth.service';
 import { ItemService } from '../services/item.service';
+import { ProfilService } from '../services/profil.service';
 
 @Component({
   selector: 'app-profil',
@@ -17,7 +18,7 @@ export class ProfilComponent implements OnInit {
   userEmail = '';
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder,private itemService: ItemService, private authService:AuthService) { }
+  constructor(private profilService: ProfilService,private formBuilder: FormBuilder,private itemService: ItemService, private authService:AuthService) { }
 
   ngOnInit() {
     if(this.authService.userIsLoggedIn()) {
@@ -56,9 +57,9 @@ export class ProfilComponent implements OnInit {
 
   updateProfil(formData){
     let id = this.decodedToken.id;
-    console.log(formData);
+    //console.log(formData);
     let data = {id,...formData}
-    this.authService.updateProfil(data).subscribe(res => {
+    this.profilService.updateProfil(data).subscribe(res => {
       this.authService.updateToken(res);
       this.decodeToken();
     });

@@ -12,6 +12,7 @@ import { ItemService } from './services/item.service';
 import { AuthentificationComponent } from './authentification/authentification.component';
 import { AuthService } from './services/auth.service';
 import { ProfilComponent } from './profil/profil.component';
+import { ProfilService } from './services/profil.service';
 
 const routes = [
   { path: '', component: HomeComponent},
@@ -38,7 +39,8 @@ const routes = [
   ],
   providers: [
     ItemService,
-    AuthService
+    AuthService,
+    ProfilService
   ],
   bootstrap: [AppComponent]
 })

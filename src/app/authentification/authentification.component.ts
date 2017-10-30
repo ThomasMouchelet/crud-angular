@@ -40,7 +40,7 @@ export class AuthentificationComponent implements OnInit {
   }
 
   handleLoginSuccess(data) {
-    console.log('success: ', data);
+    //console.log('success: ', data);
     this.jbbToken = data;
     localStorage.setItem(this.JBB_TOKEN_NAME, JSON.stringify(data));
     this.router.navigate(['/profil']);

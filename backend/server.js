@@ -29,11 +29,6 @@ app.use((req, res, next) => {
 
 const auth = express.Router();
 
-let users = [
-    {id: 1, email: 'mouchelet.thomas@gmail.com', nickname:'admin', password: 'admin', role: 'admin' },
-    {id: 2, email: 'user@gmail.com', nickname:'user', password: 'user', role: 'user' }  
-  ];
-
 let usersSql = () => {
   id = 1;
   let sql = 'SELECT * FROM users WHERE id = ' + con.escape(id);    
@@ -55,9 +50,13 @@ auth.post('/login', (req, res) => {
           res.send({ success: false, message: 'query error', error: err });
           return;
         }
-        
-        if(result[0] && (result[0].password == password)) {
-          token = jwt.sign({ iss: 'http://localhost:4201', role: 'admin',email}, secret);
+        let user = result[0];
+        if(user && (user.password == password)) {
+          if(user.role == 'admin'){
+            token = jwt.sign({ iss: 'http://localhost:4201', role: 'admin', email: req.body.email, nickname: user.nickname}, secret);
+          }else{
+            token = jwt.sign({ iss: 'http://localhost:4201', role: 'user', email: req.body.email, nickname: user.nickname}, secret);
+          }
           res.json({ success: true, token: token});
         }else {
           res.status(401).json({ success: false, message : 'identifiants incorrects' });
